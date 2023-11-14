@@ -22,37 +22,14 @@
 
 const currentPlayer = document.querySelector('h3'),
       btnReset = document.querySelector('button'),
-      boardContainer = document.getElementById('board-container');
+      boardContainer = document.getElementById('board-container'),
+      cells = document.querySelectorAll('.cell');
 
 const gameController = (function() {
    const playerOne = createPlayer('X'),
          playerTwo = createPlayer('O');
 
    playerOne.turn = true;
-
-   // for(const cell of cells) {
-   //    this.disabled = false;
-   //    cell.addEventListener('click', () => {
-   //       if(getCurrentPlayer() === 'X' && this.disabled === false) {
-   //          cell.classList.add('letter');
-   //          const X = document.createElement('h1');
-   //          X.textContent = 'X';
-   //          cell.appendChild(X);
-   //          this.disabled = true;
-   //          alternateTurns();
-   //          updateTurnDiv();
-   //       } else if (getCurrentPlayer() === 'O' && this.disabled === false) {
-   //          cell.classList.add('letter');
-   //          const O = document.createElement('h1');
-   //          O.textContent = 'O';
-   //          cell.appendChild(O);
-   //          this.disabled = true;
-   //          alternateTurns();
-   //          updateTurnDiv();
-   //       }
-   //    });
-   // }
-
 
    function createPlayer(sign) {
       return {
@@ -79,10 +56,33 @@ const gameController = (function() {
       return playerOne.turn === true ? playerOne.sign : playerTwo.sign;
    }
 
-   function makeMove(index) {
-      // Use index clicked on to add current player to board array
-   }
-});
+   cells.forEach(cell => {
+      cell.addEventListener('click', makePlay);
+   });
+      
+   function makePlay(e) {
+      const cell = e.target;
+      if(getCurrentPlayer() === 'X') {
+         cell.classList.add('letter');
+         const X = document.createElement('h1');
+         X.textContent = 'X';
+         cell.appendChild(X);
+         alternateTurns();
+         updateTurnDiv();
+         cell.removeEventListener('click', makePlay);
+      } else if (getCurrentPlayer() === 'O') {
+         cell.classList.add('letter');
+         const O = document.createElement('h1');
+         O.textContent = 'O';
+         cell.appendChild(O);
+         alternateTurns();
+         updateTurnDiv();
+         cell.removeEventListener('click', makePlay);
+      }
+   };
+
+   return;
+})();
 
 const gameboard = (function() {
    let board = [
