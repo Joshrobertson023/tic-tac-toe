@@ -7,70 +7,90 @@
  */
 
 /**
- * gameboard[] inside Gameboard object
+ * What elements do I need?
+ *    Each cell
  * 
- * Functions we need:
- * Get player name and sign
- * Play round
- *    Check to see who's turn it is (turn: true)
- *    Let them choose a place on board to land
- *    Update board with place
- *    Update player's turn to false, and other player's turn to true
- * Check for winning pattern
- *    If winning pattern, declare winner
- *    Restart game (clear board)
+ * What behavior do I want?
+ *    Alternate between turns (keep track of)
+ *    Test for a win
+ *    Able to reset
  * 
- * Objects:
- *    Player 1
- *    Player 2
- *    Gameboard
- *    GameController
- *    DisplayController
+ * What data needs to be stored?
+ *    Board
  * 
- * Logic:
- * 
- * Game starts
- * 1. Create players
- * 2. Create gameboard
- * 3. Prompt player 1 to choose a place on gameboard
- * 4. Update gameboard
- * 5. Update display
- * 6. Change player 1 turn status to false, player 2 to true
- * 7. Check for winning pattern, if yes, jump to step 9
- * 8. Loop back to step 3
- * 9. Declare winner
- * 10. Restart game (clear board and players)
  */
 
-/**
- * 0 = empty
- * 1 = X
- * 2 = O
- */
+const cells = document.querySelectorAll('.cell'),
+      currentPlayer = document.querySelector('h3'),
+      btnReset = document.querySelector('button');
 
-const playerOne = createPlayer('Player 1', 1);
+const gameController = (function() {
+   const playerOne = createPlayer('X'),
+         playerTwo = createPlayer('O');
 
-const gameboard = (() => {
-   const board = [
-      0,0,0,
-      0,0,0,
-      0,0,0,
-   ]
+   playerOne.turn = true;
 
-   return { board, /* Functions go here */ }
-});
+   
 
-function createPlayer(name, sign) {
-   return {
-      name,
-      turn: false,
-      sign,
+   for(const cell of cells) {
+      this.disabled = false;
+      cell.addEventListener('click', () => {
+         if(getCurrentPlayer() === 'X' && this.disabled === false) {
+            cell.classList.add('letter');
+            const X = document.createElement('h1');
+            X.textContent = 'X';
+            cell.appendChild(X);
+            this.disabled = true;
+            alternateTurns();
+            updateTurnDiv();
+         } else if (getCurrentPlayer() === 'O' && this.disabled === false) {
+            cell.classList.add('letter');
+            const O = document.createElement('h1');
+            O.textContent = 'O';
+            cell.appendChild(O);
+            this.disabled = true;
+            alternateTurns();
+            updateTurnDiv();
+         }
+      });
+   }
 
-      updateTurn() {
-         if(this.turn === true)
-            this.turn = false;
-         else
-            this.turn = true;
+
+   function createPlayer(sign) {
+      return {
+         sign,
+         turn: false,
       }
    }
-}
+
+   function alternateTurns() {
+      if(playerOne.turn) {
+         playerOne.turn = false;
+         playerTwo.turn = true;
+      } else {
+         playerTwo.turn = false;
+         playerOne.turn = true;
+      }
+   }
+
+   function updateTurnDiv() {
+      currentPlayer.textContent = `Current player: ${getCurrentPlayer()}`;
+   }
+
+   function getCurrentPlayer() {
+      return playerOne.turn === true ? playerOne.sign : playerTwo.sign;
+   }
+});
+
+const gameboard = (function() {
+   let board = [
+      ['','','']
+      ['','','']
+      ['','','']
+   ]
+
+   return { board };
+})
+
+gameController();
+
