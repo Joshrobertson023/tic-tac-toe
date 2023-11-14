@@ -20,9 +20,9 @@
  * 
  */
 
-const cells = document.querySelectorAll('.cell'),
-      currentPlayer = document.querySelector('h3'),
-      btnReset = document.querySelector('button');
+const currentPlayer = document.querySelector('h3'),
+      btnReset = document.querySelector('button'),
+      boardContainer = document.getElementById('board-container');
 
 const gameController = (function() {
    const playerOne = createPlayer('X'),
@@ -30,30 +30,28 @@ const gameController = (function() {
 
    playerOne.turn = true;
 
-   
-
-   for(const cell of cells) {
-      this.disabled = false;
-      cell.addEventListener('click', () => {
-         if(getCurrentPlayer() === 'X' && this.disabled === false) {
-            cell.classList.add('letter');
-            const X = document.createElement('h1');
-            X.textContent = 'X';
-            cell.appendChild(X);
-            this.disabled = true;
-            alternateTurns();
-            updateTurnDiv();
-         } else if (getCurrentPlayer() === 'O' && this.disabled === false) {
-            cell.classList.add('letter');
-            const O = document.createElement('h1');
-            O.textContent = 'O';
-            cell.appendChild(O);
-            this.disabled = true;
-            alternateTurns();
-            updateTurnDiv();
-         }
-      });
-   }
+   // for(const cell of cells) {
+   //    this.disabled = false;
+   //    cell.addEventListener('click', () => {
+   //       if(getCurrentPlayer() === 'X' && this.disabled === false) {
+   //          cell.classList.add('letter');
+   //          const X = document.createElement('h1');
+   //          X.textContent = 'X';
+   //          cell.appendChild(X);
+   //          this.disabled = true;
+   //          alternateTurns();
+   //          updateTurnDiv();
+   //       } else if (getCurrentPlayer() === 'O' && this.disabled === false) {
+   //          cell.classList.add('letter');
+   //          const O = document.createElement('h1');
+   //          O.textContent = 'O';
+   //          cell.appendChild(O);
+   //          this.disabled = true;
+   //          alternateTurns();
+   //          updateTurnDiv();
+   //       }
+   //    });
+   // }
 
 
    function createPlayer(sign) {
@@ -80,15 +78,18 @@ const gameController = (function() {
    function getCurrentPlayer() {
       return playerOne.turn === true ? playerOne.sign : playerTwo.sign;
    }
+
+   function makeMove(index) {
+      // Use index clicked on to add current player to board array
+   }
 });
 
 const gameboard = (function() {
    let board = [
-      ['','','']
-      ['','','']
-      ['','','']
+      '','','',
+      '','','',
+      '','',''
    ]
-
    return { board };
 })
 
