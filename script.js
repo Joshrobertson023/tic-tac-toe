@@ -73,32 +73,38 @@ const gameController = (function() {
          }, 20)
          reset();
       }
+   };
 
-      function reset() {
-         const cellContainer = document.getElementById('container');
+   function reset() {
+      const cellContainer = document.getElementById('container');
 
-         gameboard.resetBoard();
-      
-         while(cellContainer.firstChild) {
-            cellContainer.removeChild(cellContainer.lastChild);
-         }
-
-         for(let i = 0; i < 9; i++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cellContainer.appendChild(cell);
-            cell.setAttribute('index', i);
-         }
-
-         const newCells = document.querySelectorAll('.cell');
-         newCells.forEach(cell => {
-            cell.addEventListener('click', makePlay);
-            console.log('added new even listener');
-         });
+      gameboard.resetBoard();
+   
+      while(cellContainer.firstChild) {
+         cellContainer.removeChild(cellContainer.lastChild);
       }
 
-      btnReset.addEventListener('click', reset);
-   };
+      for(let i = 0; i < 9; i++) {
+         const cell = document.createElement('div');
+         cell.classList.add('cell');
+         cellContainer.appendChild(cell);
+         cell.setAttribute('index', i);
+      }
+
+      const newCells = document.querySelectorAll('.cell');
+      newCells.forEach(cell => {
+         cell.addEventListener('click', makePlay);
+         console.log('added new even listener');
+      });
+
+      playerOne.turn = true;
+      playerTwo.turn = false;
+      updateTurnDiv();
+   }
+   
+   btnReset.addEventListener('click', () => {
+      reset();
+   });
 
    function getCellIndex(currentCell) {
       return currentCell.getAttribute('index');
@@ -107,6 +113,8 @@ const gameController = (function() {
    function alertWinner(currentPlayer) {
       alert(`${currentPlayer} won!`);
    }
+
+   return {makePlay};
 });
 
 const gameboard = (function() {

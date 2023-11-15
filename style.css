@@ -1,19 +1,15 @@
 body {
    display: flex;
-   justify-content: center;
    align-items: center;
    flex-direction: column;
    height: 90vh;
+   background-color: #e3e7ee;
 }
 
 #container {
    display: grid;
    grid-template-columns: 100px 100px 100px;
    grid-template-rows: 100px 100px 100px;
-}
-
-h3 {
-   margin: 100px 0px;
 }
 
 .cell {
@@ -24,6 +20,32 @@ h3 {
    align-items: center;
 }
 
+.cell:hover {
+   background-color: #c9d3de;
+}
+
 .letter {
    font-size: 48px;
+}
+
+button {
+   width: 100px;
+   height: 30px;
+   background-color: #c7b7a3;
+   color: #0e1116;
+   cursor: pointer;
+   margin-top: 50px;
+   font-size: 14px;
+   font-family: 'Poppins', sans-serif;
+   font-weight: 300;
+   padding-top: 3px;
+}
+
+h3 {
+   font-family: 'Poppins', sans-serif;
+   font-size: 28px;
+   font-weight: 600;
+   color: #0e1116;
+   margin-top: 100px;
+   margin-bottom: 50px;
 }
