@@ -1,30 +1,8 @@
-/**
- * 
- * Tic-tac-toe by Josh Robertson
- * 
- * Date: 11/9/2023
- * 
- */
-
-/**
- * What elements do I need?
- *    Each cell
- * 
- * What behavior do I want?
- *    Alternate between turns (keep track of)
- *    Test for a win
- *    Able to reset
- * 
- * What data needs to be stored?
- *    Board
- * 
- */
-
-
 const gameController = (function() {
    const currentPlayer = document.querySelector('h3'),
          btnReset = document.querySelector('button'),
          cells = document.querySelectorAll('.cell');
+         
    const playerOne = createPlayer('X'),
          playerTwo = createPlayer('O');
 
@@ -33,8 +11,6 @@ const gameController = (function() {
    cells.forEach(cell => {
       cell.addEventListener('click', makePlay);
    });
-
-   btnReset.addEventListener('click', reset());
 
    function createPlayer(sign) {
       return {
@@ -67,11 +43,13 @@ const gameController = (function() {
          const X = document.createElement('h1');
          X.textContent = 'X';
          cell.appendChild(X);
+         return {X};
       } else if (player === 'O') {
          cell.classList.add('letter', 'o');
          const O = document.createElement('h1');
          O.textContent = 'O';
          cell.appendChild(O);
+         return {O};
       }
    }
 
@@ -86,28 +64,50 @@ const gameController = (function() {
       updateTurnDiv();
       cell.removeEventListener('click', makePlay);
 
+      console.log('makePLay working');
+
       if(gameboard.checkWin(currentPlayer)) {
+         console.log('checkwin working');
          setTimeout(() => {
             alertWinner(currentPlayer);
-         }, 1)
+         }, 20)
          reset();
       }
+
+      function reset() {
+         const cellContainer = document.getElementById('container');
+
+         gameboard.resetBoard();
+      
+         while(cellContainer.firstChild) {
+            cellContainer.removeChild(cellContainer.lastChild);
+         }
+
+         for(let i = 0; i < 9; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cellContainer.appendChild(cell);
+            cell.setAttribute('index', i);
+         }
+
+         const newCells = document.querySelectorAll('.cell');
+         newCells.forEach(cell => {
+            cell.addEventListener('click', makePlay);
+            console.log('added new even listener');
+         });
+      }
+
+      btnReset.addEventListener('click', reset);
    };
 
    function getCellIndex(currentCell) {
       return currentCell.getAttribute('index');
    }
 
-   function reset() {
-      gameboard.resetBoard();
-   }
-
    function alertWinner(currentPlayer) {
       alert(`${currentPlayer} won!`);
    }
-
-   return;
-})();
+});
 
 const gameboard = (function() {
    let board = [
@@ -128,8 +128,10 @@ const gameboard = (function() {
    ]
 
    function resetBoard() {
-      for(let i = 0; i < 9; i++)
+      for(let i = 0; i < 9; i++) {
          board[i] = '';
+      }
+      console.log(board);
    }
 
    function addPlayer(index, currentPlayer) {
@@ -153,7 +155,7 @@ const gameboard = (function() {
       }
    }
 
-   return { addPlayer, checkWin, resetBoard };
+   return { addPlayer, checkWin, resetBoard, board };
 })();
 
 gameController();
