@@ -68,9 +68,7 @@ const gameController = (function() {
 
       if(gameboard.checkWin(currentPlayer)) {
          console.log('checkwin working');
-         setTimeout(() => {
-            alertWinner(currentPlayer);
-         }, 20)
+         alertWinner(currentPlayer);
          reset();
       }
    };

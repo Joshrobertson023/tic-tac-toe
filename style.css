@@ -3,7 +3,8 @@ body {
    align-items: center;
    flex-direction: column;
    height: 90vh;
-   background-color: #e3e7ee;
+   background-color: #E2E2E2;
+   overflow-y: hidden;
 }
 
 #container {
@@ -48,4 +49,18 @@ h3 {
    color: #0e1116;
    margin-top: 100px;
    margin-bottom: 50px;
+}
+
+.footer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+   margin-top: 50px;
+}
+
+img {
+   width: 20px;
+   height: auto;
+   margin-top: 3px;
 }
